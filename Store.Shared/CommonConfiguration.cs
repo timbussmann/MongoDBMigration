@@ -3,7 +3,7 @@ using System.Text;
 using NServiceBus;
 using NServiceBus.Encryption.MessageProperty;
 using NServiceBus.MessageMutator;
-using NServiceBus.Persistence.MongoDB;
+//using NServiceBus.Persistence.MongoDB;
 
 public static class CommonConfiguration
 {
@@ -15,8 +15,8 @@ public static class CommonConfiguration
 
         messageEndpointMappings?.Invoke(transport);
 
-        var persistence = endpointConfiguration.UsePersistence<MongoDbPersistence>();
-        persistence.SetConnectionString("mongodb://localhost/showcase");
+        //var persistence = endpointConfiguration.UsePersistence<MongoDbPersistence>();
+        //persistence.SetConnectionString("mongodb://localhost/showcase");
 
 
         var defaultKey = "2015-10";
