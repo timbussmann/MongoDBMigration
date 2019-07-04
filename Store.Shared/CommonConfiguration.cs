@@ -3,15 +3,22 @@ using System.Text;
 using NServiceBus;
 using NServiceBus.Encryption.MessageProperty;
 using NServiceBus.MessageMutator;
+using NServiceBus.Persistence.MongoDB;
 
 public static class CommonConfiguration
 {
     public static void ApplyCommonConfiguration(this EndpointConfiguration endpointConfiguration,
-        Action<TransportExtensions<LearningTransport>> messageEndpointMappings = null)
+        Action<TransportExtensions<RabbitMQTransport>> messageEndpointMappings = null)
     {
-        var transport = endpointConfiguration.UseTransport<LearningTransport>();
+        var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
+        transport.ConnectionString("host=localhost");
+
         messageEndpointMappings?.Invoke(transport);
-        endpointConfiguration.UsePersistence<LearningPersistence>();
+
+        var persistence = endpointConfiguration.UsePersistence<MongoDbPersistence>();
+        persistence.SetConnectionString("mongodb://localhost/showcase");
+
+
         var defaultKey = "2015-10";
         var ascii = Encoding.ASCII;
         var encryptionService = new RijndaelEncryptionService(
