@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using MongoDB.Driver;
 using NServiceBus;
 using NServiceBus.Encryption.MessageProperty;
 using NServiceBus.MessageMutator;
@@ -12,11 +13,15 @@ public static class CommonConfiguration
     {
         var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
         transport.ConnectionString("host=localhost");
+        transport.UseConventionalRoutingTopology();
 
         messageEndpointMappings?.Invoke(transport);
 
-        //var persistence = endpointConfiguration.UsePersistence<MongoDbPersistence>();
-        //persistence.SetConnectionString("mongodb://localhost/showcase");
+        var persistence = endpointConfiguration.UsePersistence<MongoPersistence>();
+        persistence.MongoClient(new MongoClient("mongodb://localhost"));
+        persistence.DatabaseName("showcase");
+        var compatibility = persistence.CommunityPersistenceCompatibility();
+        compatibility.VersionElementName("Version");
 
 
         var defaultKey = "2015-10";

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.Logging;
-using NServiceBus.Persistence.MongoDB;
 using Store.Messages.Commands;
 using Store.Messages.Events;
 
@@ -83,8 +82,6 @@ public class ProcessOrderSaga :
         public int OrderNumber { get; set; }
         public string[] ProductIds { get; set; }
         public string ClientId { get; set; }
-        [DocumentVersion]
-        public int Version { get; set; }
     }
 
     public class BuyersRemorseIsOver
