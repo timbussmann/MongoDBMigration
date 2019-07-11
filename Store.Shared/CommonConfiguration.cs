@@ -16,7 +16,7 @@ public static class CommonConfiguration
         messageEndpointMappings?.Invoke(transport);
 
         var persistence = endpointConfiguration.UsePersistence<MongoDbPersistence>();
-        persistence.SetConnectionString("mongodb://localhost/showcase");
+        persistence.SetConnectionString("mongodb://localhost");
 
 
         var defaultKey = "2015-10";
